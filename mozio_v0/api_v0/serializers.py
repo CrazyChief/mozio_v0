@@ -38,4 +38,3 @@ class FilteredServiceAreaSerializer(serializers.ModelSerializer):
             'provider_name',
             'price',
         )
-
