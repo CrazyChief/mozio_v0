@@ -7,5 +7,5 @@ __pycache__
 db_sqlite3
 media
 .env
-/mozio_test/static
+/mozio_v0/static
 media
