@@ -32,7 +32,7 @@ class ServiceArea(models.Model):
     relates to Provider model
     """
     provider = models.ForeignKey(
-        Provider, on_delete=models.CASCADE,
+        Provider, on_delete=models.CASCADE, null=True,
         verbose_name=_('Provider'))
     polygon_name = models.CharField(
         _('Polygon name'), max_length=256, blank=True
