@@ -25,3 +25,17 @@ class ServiceAreaSerializer(serializers.ModelSerializer):
             'price',
             'polygon',
         )
+
+
+class FilteredServiceAreaSerializer(serializers.ModelSerializer):
+
+    provider_name = serializers.CharField(source='provider.name')
+
+    class Meta:
+        model = ServiceArea
+        fields = (
+            'polygon_name',
+            'provider_name',
+            'price',
+        )
+

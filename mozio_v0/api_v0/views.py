@@ -1,3 +1,6 @@
+import decimal
+import re
+
 from django.db.models import ObjectDoesNotExist
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -64,3 +67,27 @@ class ServiceAreaViewSet(viewsets.ModelViewSet):
         return {
             'Success': 'New ServiceArea successfully created!'
         }
+
+    def list(self, request, *args, **kwargs):
+        if 'pos' in request.query_params:
+            data = request.query_params.get('pos')
+            # parsing of incoming param
+            data = re.sub(r'(\[)|(\])|(\s)', '', data)
+            pieces = [
+                decimal.Decimal(p) for i, p in enumerate(data.split(','))]
+            queryset = ServiceArea.objects.filter(
+                polygon__contains=[pieces]
+            )
+            self.serializer_class = FilteredServiceAreaSerializer
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data)
+        else:
+            queryset = self.filter_queryset(self.get_queryset())
+
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+
+            serializer = self.get_serializer(queryset, many=True)
+            return Response(serializer.data)
