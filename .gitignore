@@ -1,0 +1,11 @@
+.idea
+.venv
+
+__pycache__
+*.pyc
+.DS_Store
+db_sqlite3
+media
+.env
+/mozio_test/static
+media
